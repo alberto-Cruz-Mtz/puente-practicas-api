@@ -1,6 +1,8 @@
 package puente.practicas.api.common.advice;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +19,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ProblemDetail> handleValidationExceptions(MethodArgumentNotValidException ex, WebRequest request) {
+    public ResponseEntity<ProblemDetail> handleValidationExceptions(MethodArgumentNotValidException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST; // 400
 
         Map<String, String> fieldErrors = ex.getBindingResult().getFieldErrors().stream()
@@ -39,32 +42,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(problemDetail);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ProblemDetail> handleGenericException(Exception ex, WebRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR; // 500
-        String message = "An unexpected error occurred. Please contact support.";
-        log.error("Unhandled exception occurred", ex);
-
-        ProblemDetail error = ProblemDetail.forStatusAndDetail(status, message);
-        error.setTitle("Internal Server Error");
-        error.setType(URI.create(BaseURI.ERROR_URI + "/internal-server-error"));
-
-        return ResponseEntity.status(status).body(error);
-    }
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ProblemDetail> handleNotFoundException(ResourceNotFoundException ex, WebRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND; // 404
-
-        ProblemDetail error = ProblemDetail.forStatusAndDetail(status, ex.getMessage());
-        error.setTitle("Resource Not Found");
-        error.setType(URI.create(BaseURI.ERROR_URI + "/resource-not-found"));
-
-        return ResponseEntity.status(status).body(error);
-    }
-
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ProblemDetail> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
+    public ResponseEntity<ProblemDetail> handleIllegalArgumentException(IllegalArgumentException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST; // 400
 
         ProblemDetail error = ProblemDetail.forStatusAndDetail(status, ex.getMessage());
