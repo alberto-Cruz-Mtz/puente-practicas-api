@@ -5,7 +5,7 @@ import puente.practicas.api.offer.persistence.model.ApplicationStatus;
 import java.util.UUID;
 
 public record ApplicantsResponse(
-        UUID id,
+        UUID studentId,
         String avatarUrl,
         String studentName,
         String cvUrl,

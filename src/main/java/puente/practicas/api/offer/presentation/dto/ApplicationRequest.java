@@ -4,9 +4,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record ApplyRequest(
+public record ApplicationRequest(
         @NotNull(message = "Offer ID cannot be null")
-        UUID offerId,
-        @NotNull(message = "Student ID cannot be null")
-        UUID studentId) {
+        UUID offerId
+) {
 }
