@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import puente.practicas.api.auth.service.exception.EmailAlreadyInUseException;
 import puente.practicas.api.auth.service.exception.JwtValidationException;
+import puente.practicas.api.auth.service.exception.RefreshTokenNotFoundException;
+import puente.practicas.api.auth.service.exception.UserNotFoundException;
 import puente.practicas.api.common.advice.BaseURI;
+import puente.practicas.api.common.exception.ResourceNotFoundException;
 
 import java.net.URI;
 
@@ -35,5 +38,14 @@ public class AuthenticationExceptionHandler {
         problemDetail.setTitle("Email Already In Use");
         problemDetail.setType(URI.create(BaseURI.BASE_URI + "/authentication/email-already-in-use"));
         return ResponseEntity.status(409).body(problemDetail);
+    }
+
+    @ExceptionHandler({UserNotFoundException.class, RefreshTokenNotFoundException.class})
+    public ResponseEntity<ProblemDetail> handleNotFoundException(ResourceNotFoundException exception) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, exception.getMessage());
+        problemDetail.setTitle("Resource Not Found");
+        problemDetail.setType(URI.create(BaseURI.BASE_URI + "/authentication/resource-not-found"));
+        return ResponseEntity.status(404).body(problemDetail);
     }
 }
