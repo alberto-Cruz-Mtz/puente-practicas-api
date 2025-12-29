@@ -16,11 +16,11 @@ import puente.practicas.api.auth.persistence.entity.UserEntity;
 import puente.practicas.api.auth.persistence.model.AccountType;
 import puente.practicas.api.auth.persistence.model.UserRole;
 import puente.practicas.api.auth.persistence.repository.RefreshTokenRepository;
-import puente.practicas.api.auth.persistence.repository.UserRepository;
 import puente.practicas.api.auth.presentation.dto.AuthenticationRequest;
 import puente.practicas.api.auth.presentation.dto.AuthenticationResponse;
-import puente.practicas.api.auth.presentation.dto.RefreshToken;
+import puente.practicas.api.auth.presentation.dto.RefreshTokenRequest;
 import puente.practicas.api.auth.presentation.dto.RefreshTokenResponse;
+import puente.practicas.api.auth.presentation.dto.RegisterRequest;
 import puente.practicas.api.auth.service.exception.EmailAlreadyInUseException;
 import puente.practicas.api.auth.service.interfaces.AuthenticationService;
 import puente.practicas.api.auth.service.interfaces.RefreshTokenService;
@@ -29,7 +29,6 @@ import puente.practicas.api.auth.util.JwtUtil;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +58,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public AuthenticationResponse signup(AuthenticationRequest request) {
+    public AuthenticationResponse signup(RegisterRequest request) {
         boolean isEmailUsed = userService.isEmailInUse(request.email());
         if (isEmailUsed) throw new EmailAlreadyInUseException("This email is already in use by another account.");
         UserRole role = mapAccountTypeToUserRole(request.accountType());
@@ -90,7 +89,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public RefreshTokenResponse refreshToken(RefreshToken request) {
+    public RefreshTokenResponse refreshToken(RefreshTokenRequest request) {
         RefreshTokenEntity usedToken = refreshTokenService.findByToken(request.refreshToken());
         refreshTokenService.verifyExpiration(usedToken);
 
@@ -106,10 +105,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new RefreshTokenResponse(newAccessToken, newRefreshToken.getToken());
     }
 
-    private UserRole mapAccountTypeToUserRole(AccountType accountType) {
-        return switch (accountType) {
-            case RECRUITER_ACCOUNT -> UserRole.ROLE_RECRUITER;
-            case STUDENT_ACCOUNT -> UserRole.ROLE_STUDENT;
+    private UserRole mapAccountTypeToUserRole(AccountType type) {
+        return switch (type) {
+            case RECRUITER -> UserRole.ROLE_RECRUITER;
+            case STUDENT -> UserRole.ROLE_STUDENT;
             default -> throw new IllegalArgumentException("Invalid account type");
         };
     }
