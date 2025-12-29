@@ -1,6 +1,7 @@
 package puente.practicas.api.offer.service.interfaces;
 
 import org.springframework.data.domain.Pageable;
+import puente.practicas.api.offer.persistence.entity.OfferEntity;
 import puente.practicas.api.offer.presentation.dto.OfferDetailsResponse;
 import puente.practicas.api.offer.presentation.dto.OfferFilter;
 import puente.practicas.api.offer.presentation.dto.OfferListResponse;
@@ -19,5 +20,7 @@ public interface OfferService {
     OfferListResponse getOffersByCompanyId(UUID companyId, Pageable pageable);
 
     OfferDetailsResponse getOfferById(UUID offerId);
+
+    OfferEntity findOfferById(UUID offerId);
 
 }

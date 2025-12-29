@@ -1,18 +1,23 @@
 package puente.practicas.api.offer.service.interfaces;
 
-import puente.practicas.api.offer.presentation.dto.ApplicantsResponse;
-import puente.practicas.api.offer.presentation.dto.ApplyRequest;
+import org.springframework.data.domain.Pageable;
+import puente.practicas.api.offer.persistence.model.ApplicationStatus;
+import puente.practicas.api.offer.presentation.dto.ApplicantListResponse;
+import puente.practicas.api.offer.presentation.dto.ApplicationListResponse;
+import puente.practicas.api.offer.presentation.dto.ApplicationRequest;
+import puente.practicas.api.offer.presentation.dto.StatusChangeRequest;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface ApplicationService {
 
-    void applyToOffer(ApplyRequest request);
+    void applyToOffer(UUID offerId, UUID studentId);
 
-    List<ApplicantsResponse> getApplicantsByOfferId(UUID offerId);
+    void withdrawApplication(UUID offerId, UUID studentId);
 
-    void withdrawApplication(UUID applicationId);
+    ApplicationListResponse getApplicationsByStudentId(UUID studentId, Pageable pageable);
 
-    void updateApplicationStatus(UUID applicationId, String status);
+    ApplicantListResponse getApplicantsByOfferId(UUID offerId, Pageable pageable);
+
+    void updateApplicationStatus(StatusChangeRequest request);
 }
