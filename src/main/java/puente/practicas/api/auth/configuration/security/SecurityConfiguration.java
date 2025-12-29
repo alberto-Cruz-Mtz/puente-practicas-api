@@ -36,7 +36,22 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(http -> {
                     http.requestMatchers(HttpMethod.POST, "/auth/login", "/auth/signup").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/student-profile/{userEmail}").permitAll();
+                   
+                    http.requestMatchers("/recruiter-profiles/**").hasRole("RECRUITER");
+
+                    http.requestMatchers(HttpMethod.POST, "/student-profiles").hasRole("STUDENT");
+                    http.requestMatchers(HttpMethod.GET, "/student-profiles/me").hasRole("STUDENT");
+                    http.requestMatchers(HttpMethod.GET, "/student-profiles/{userEmail}").permitAll();
+
+                    http.requestMatchers(HttpMethod.POST, "/companies").hasRole("RECRUITER");
+                    http.requestMatchers(HttpMethod.GET, "/companies").hasRole("RECRUITER");
+                    http.requestMatchers(HttpMethod.GET, "/companies/{companyId}").permitAll();
+
+                    http.requestMatchers(HttpMethod.POST, "/applications").hasRole("STUDENT");
+                    http.requestMatchers(HttpMethod.PATCH, "/applications").hasRole("STUDENT");
+                    http.requestMatchers(HttpMethod.GET, "/applications/me").hasRole("STUDENT");
+                    http.requestMatchers(HttpMethod.PATCH, "/applications/status").hasRole("RECRUITER");
+                    http.requestMatchers(HttpMethod.GET, "/applications").hasRole("RECRUITER");
                     http.anyRequest().authenticated();
                 })
                 .build();
