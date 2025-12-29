@@ -29,6 +29,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UUID findIdByEmail(String email) {
+        return repository.findIdByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User with email " + email + " not found"));
+    }
+
+    @Override
     public boolean isEmailInUse(String email) {
         return repository.existsByEmail(email);
     }

@@ -10,6 +10,8 @@ public interface UserService {
 
     UserEntity findById(UUID id);
 
+    UUID findIdByEmail(String email);
+
     boolean isEmailInUse(String email);
 
     UserEntity createUser(UserEntity user);
