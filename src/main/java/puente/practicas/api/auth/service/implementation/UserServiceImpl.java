@@ -1,6 +1,7 @@
 package puente.practicas.api.auth.service.implementation;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import puente.practicas.api.auth.persistence.entity.UserEntity;
 import puente.practicas.api.auth.persistence.repository.UserRepository;
@@ -18,7 +19,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity findByEmail(String email) {
         return repository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User with email " + email + " not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
     }
 
     @Override
