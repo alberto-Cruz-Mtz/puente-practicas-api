@@ -11,7 +11,6 @@ import puente.practicas.api.offer.presentation.dto.OfferSummary;
 public class OfferMapper {
 
     public OfferEntity toOfferEntity(OfferSaveRequest request) {
-        WorkModality modality = this.mapModality(request.modality());
         return OfferEntity.builder()
                 .title(request.title())
                 .description(request.description())
@@ -19,7 +18,7 @@ public class OfferMapper {
                 .requiredSkills(request.requirements())
                 .learningOutcomes(request.learning())
                 .duration(request.duration())
-                .modality(modality)
+                .modality(request.modality())
                 .location(request.location())
                 .vacancies(request.vacancies())
                 .isPaid(request.isPaid())
@@ -88,7 +87,7 @@ public class OfferMapper {
         existingOffer.setRequiredSkills(request.requirements());
         existingOffer.setLearningOutcomes(request.learning());
         existingOffer.setDuration(request.duration());
-        existingOffer.setModality(this.mapModality(request.modality()));
+        existingOffer.setModality(request.modality());
         existingOffer.setLocation(request.location());
         existingOffer.setVacancies(request.vacancies());
         existingOffer.setPaid(request.isPaid());
