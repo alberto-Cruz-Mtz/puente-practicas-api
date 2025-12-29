@@ -36,7 +36,7 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(http -> {
                     http.requestMatchers(HttpMethod.POST, "/auth/login", "/auth/signup").permitAll();
-                   
+
                     http.requestMatchers("/recruiter-profiles/**").hasRole("RECRUITER");
 
                     http.requestMatchers(HttpMethod.POST, "/student-profiles").hasRole("STUDENT");
