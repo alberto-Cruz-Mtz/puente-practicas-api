@@ -12,6 +12,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,6 +28,11 @@ import puente.practicas.api.profile.persistence.entity.StudentProfileEntity;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "application")
@@ -31,12 +41,12 @@ public class ApplicationEntity {
     @EmbeddedId
     private ApplicationId id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE, targetEntity = StudentProfileEntity.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = StudentProfileEntity.class, fetch = FetchType.LAZY)
     @MapsId(value = "studentProfileId")
     @JoinColumn(name = "student_id", nullable = false)
     private StudentProfileEntity studentProfile;
 
-    @ManyToOne(cascade = CascadeType.REMOVE, targetEntity = OfferEntity.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = OfferEntity.class, fetch = FetchType.LAZY)
     @MapsId(value = "offerId")
     @JoinColumn(name = "offer_id", nullable = false)
     private OfferEntity offer;
