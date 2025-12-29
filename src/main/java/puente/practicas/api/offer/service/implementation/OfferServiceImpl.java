@@ -75,6 +75,7 @@ public class OfferServiceImpl implements OfferService {
         return offerMapper.toOfferDetails(offer);
     }
 
+    @Override
     public OfferEntity findOfferById(UUID offerId) {
         return offerRepository.findById(offerId)
                 .orElseThrow(() -> new OfferNotFoundException("Offer with the given ID does not exist"));
