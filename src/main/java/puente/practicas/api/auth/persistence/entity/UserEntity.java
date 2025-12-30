@@ -43,7 +43,4 @@ public class UserEntity extends AuditableEntity {
     @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(name = "role", length = 20)
     private UserRole role;
-
-    @Column(name = "is_verified")
-    private boolean isVerified;
 }
