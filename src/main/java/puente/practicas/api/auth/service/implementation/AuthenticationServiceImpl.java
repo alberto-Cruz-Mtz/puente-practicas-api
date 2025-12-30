@@ -105,10 +105,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new RefreshTokenResponse(newAccessToken, newRefreshToken.getToken());
     }
 
-    private UserRole mapAccountTypeToUserRole(AccountType type) {
-        return switch (type) {
-            case RECRUITER -> UserRole.ROLE_RECRUITER;
-            case STUDENT -> UserRole.ROLE_STUDENT;
+    private UserRole mapAccountTypeToUserRole(String type) {
+        return switch (type.toUpperCase()) {
+            case "RECRUITER" -> UserRole.ROLE_RECRUITER;
+            case "STUDENT" -> UserRole.ROLE_STUDENT;
             default -> throw new IllegalArgumentException("Invalid account type");
         };
     }

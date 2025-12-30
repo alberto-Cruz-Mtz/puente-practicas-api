@@ -18,7 +18,7 @@ public class OfferMapper {
                 .requiredSkills(request.requirements())
                 .learningOutcomes(request.learning())
                 .duration(request.duration())
-                .modality(request.modality())
+                .modality(this.mapModality(request.modality()))
                 .location(request.location())
                 .vacancies(request.vacancies())
                 .isPaid(request.isPaid())
@@ -64,10 +64,10 @@ public class OfferMapper {
     }
 
     private WorkModality mapModality(String modality) {
-        return switch (modality.toLowerCase()) {
-            case "onsite" -> WorkModality.ONSITE;
-            case "remote" -> WorkModality.REMOTE;
-            case "hybrid" -> WorkModality.HYBRID;
+        return switch (modality.toUpperCase()) {
+            case "ONSITE" -> WorkModality.ONSITE;
+            case "REMOTE" -> WorkModality.REMOTE;
+            case "HYBRID" -> WorkModality.HYBRID;
             default -> throw new IllegalArgumentException("Invalid modality: " + modality);
         };
     }
@@ -87,7 +87,7 @@ public class OfferMapper {
         existingOffer.setRequiredSkills(request.requirements());
         existingOffer.setLearningOutcomes(request.learning());
         existingOffer.setDuration(request.duration());
-        existingOffer.setModality(request.modality());
+        existingOffer.setModality(this.mapModality(request.modality()));
         existingOffer.setLocation(request.location());
         existingOffer.setVacancies(request.vacancies());
         existingOffer.setPaid(request.isPaid());
