@@ -3,6 +3,7 @@ package puente.practicas.api.offer.util;
 import org.springframework.stereotype.Component;
 import puente.practicas.api.offer.persistence.entity.ApplicationEntity;
 import puente.practicas.api.offer.persistence.entity.OfferEntity;
+import puente.practicas.api.offer.persistence.model.ApplicationStatus;
 import puente.practicas.api.offer.presentation.dto.ApplicantsResponse;
 import puente.practicas.api.offer.presentation.dto.ApplicationResponse;
 import puente.practicas.api.profile.persistence.entity.StudentProfileEntity;
@@ -32,5 +33,16 @@ public class ApplicationMapper {
                 application.getStatus(),
                 application.getAppliedAt()
         );
+    }
+
+    public ApplicationStatus mapStatus(String status) {
+        return switch (status) {
+            case "PENDING" -> ApplicationStatus.PENDING;
+            case "ACCEPTED" -> ApplicationStatus.ACCEPTED;
+            case "REJECTED" -> ApplicationStatus.REJECTED;
+            case "WITHDRAWN" -> ApplicationStatus.WITHDRAWN;
+            case "IN_REVIEW" -> ApplicationStatus.IN_REVIEW;
+            default -> throw new IllegalArgumentException("Unknown status: " + status);
+        };
     }
 }

@@ -95,8 +95,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     public void updateApplicationStatus(StatusChangeRequest request) {
         ApplicationId id = new ApplicationId(request.studentId(), request.offerId());
         ApplicationEntity application = this.findApplicationById(id);
+        ApplicationStatus status = applicationMapper.mapStatus(request.newStatus());
 
-        application.setStatus(request.newStatus());
+        application.setStatus(status);
         applicationRepository.save(application);
     }
 
