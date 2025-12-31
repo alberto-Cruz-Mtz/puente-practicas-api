@@ -47,6 +47,10 @@ public class SecurityConfiguration {
                     http.requestMatchers(HttpMethod.GET, "/companies").hasRole("RECRUITER");
                     http.requestMatchers(HttpMethod.GET, "/companies/{companyId}").permitAll();
 
+                    http.requestMatchers(HttpMethod.GET, "/offers", "/offers/by-company", "/offers/{offerId}").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/offers").hasRole("RECRUITER");
+                    http.requestMatchers(HttpMethod.PUT, "/offers/{offerId}").hasRole("RECRUITER");
+
                     http.requestMatchers(HttpMethod.POST, "/applications").hasRole("STUDENT");
                     http.requestMatchers(HttpMethod.PATCH, "/applications").hasRole("STUDENT");
                     http.requestMatchers(HttpMethod.GET, "/applications/me").hasRole("STUDENT");
