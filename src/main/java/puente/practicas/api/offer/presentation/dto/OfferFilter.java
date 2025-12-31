@@ -7,6 +7,6 @@ import java.time.Instant;
 public record OfferFilter(
         WorkModality modality,
         Instant publishedAfter,
-        boolean hasFinancialSupport
+        Boolean hasFinancialSupport
 ) {
 }

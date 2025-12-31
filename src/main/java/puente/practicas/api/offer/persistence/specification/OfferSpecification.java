@@ -17,8 +17,8 @@ public class OfferSpecification {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.isTrue(root.get("isActive")));
 
-            if (filter.hasFinancialSupport()) {
-                predicates.add(criteriaBuilder.isTrue(root.get("isPaid")));
+            if (filter.hasFinancialSupport() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("isPaid"), filter.hasFinancialSupport()));
             }
 
             if (filter.modality() != null) {
